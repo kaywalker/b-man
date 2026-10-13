@@ -1,0 +1,36 @@
+; Engine configuration file.
+; Godot 4.7 – B-Man (Bomberman-Klon für 4 Spieler)
+
+config_version=5
+
+[application]
+
+config/name="B-Man"
+config/description="Bomberman-Klon im Stil von Super Bomberman (SNES, 1993) für 4 Spieler an einem Bildschirm."
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[autoload]
+
+Sfx="*res://scripts/sfx.gd"
+
+[display]
+
+window/size/viewport_width=480
+window/size/viewport_height=270
+window/size/window_width_override=1440
+window/size/window_height_override=810
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
+[gui]
+
+theme/default_font_antialiasing=0
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_transforms_to_pixel=true
+environment/defaults/default_clear_color=Color(0.06, 0.06, 0.1, 1)
