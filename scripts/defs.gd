@@ -13,8 +13,9 @@ const PLAYER_NAMES := ["P1", "P2", "P3", "P4"]
 ## Farben wie bei Super Bomberman: Weiß, Schwarz, Rot, Blau.
 const PLAYER_COLORS := [Color("f4f4f4"), Color("3a3a48"), Color("e04040"), Color("4070e8")]
 const PLAYER_SUITS := [Color("5878f0"), Color("b03838"), Color("f0f0f0"), Color("f0d040")]
-## Start: P1 oben links, P2 oben rechts, P3 unten links, P4 unten rechts.
-const START_CELLS := [Vector2i(1, 1), Vector2i(13, 1), Vector2i(1, 11), Vector2i(13, 11)]
+## Start in der Ecke vor dem eigenen Sitzplatz (P1 unten, P2 rechts, P3 oben, P4 links):
+## P1 unten links, P2 unten rechts, P3 oben rechts, P4 oben links.
+const START_CELLS := [Vector2i(1, 11), Vector2i(13, 11), Vector2i(13, 1), Vector2i(1, 1)]
 
 const DIRS := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]
 

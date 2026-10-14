@@ -8,8 +8,11 @@ const PANEL_SIZE := Vector2(108, 102)
 
 
 func _panel_rect(i: int) -> Rect2:
-	var x := 6.0 if i % 2 == 0 else Defs.SCREEN.x - 6.0 - PANEL_SIZE.x
-	var y := 40.0 if i < 2 else 40.0 + 208.0 - PANEL_SIZE.y
+	# Anzeige neben der eigenen Startecke: P1 unten links, P2 unten rechts, P3 oben rechts, P4 oben links.
+	var left := i == 0 or i == 3
+	var top := i >= 2
+	var x := 6.0 if left else Defs.SCREEN.x - 6.0 - PANEL_SIZE.x
+	var y := 40.0 if top else 40.0 + 208.0 - PANEL_SIZE.y
 	return Rect2(Vector2(x, y), PANEL_SIZE)
 
 

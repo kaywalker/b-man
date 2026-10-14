@@ -114,8 +114,10 @@ func _draw() -> void:
 	elif joined.count(true) == 1:
 		footer = "Mindestens 2 Spieler nötig"
 	Art.text(self, Vector2(240, 246), footer, 10, Color.WHITE)
-	Art.text(self, Vector2(460, 262), "Controller: %d" % Input.get_connected_joypads().size(), 8,
-		Color("808090"), HORIZONTAL_ALIGNMENT_RIGHT, 120)
+	var info := "Controller: %d" % Input.get_connected_joypads().size()
+	if Controls.last_raw != "":
+		info += "   ·   " + Controls.last_raw
+	Art.text(self, Vector2(464, 262), info, 8, Color("808090"), HORIZONTAL_ALIGNMENT_RIGHT, 300)
 
 
 func _draw_slot(i: int, r: Rect2) -> void:

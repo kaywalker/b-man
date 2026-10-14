@@ -8,13 +8,24 @@ Grafik und Sound werden komplett im Code erzeugt. Es gibt keine Asset-Dateien.
 
 ## Spielen
 
-| Eingabe      | Lobby                        | Im Spiel                               |
-|--------------|------------------------------|----------------------------------------|
-| Joystick     | Einstellungen wählen/ändern  | laufen (diagonal = um die Ecke biegen) |
-| **A**        | mitmachen, dann bereit       | Bombe legen                            |
-| **B**        | zurück / abmelden            | Fernzünder: älteste eigene Bombe zünden |
-| Esc          | Programm beenden             | zurück zur Lobby                       |
-| F11          | Vollbild an/aus              | Vollbild an/aus                        |
+Gespielt wird am flach liegenden Bildschirm, jeder an einer Seite.
+
+| Spieler | Figur   | Platz  | Startecke    | Gamepad | Tastatur (zum Testen)                   |
+|---------|---------|--------|--------------|---------|-----------------------------------------|
+| P1      | Weiß    | unten  | unten links  | Pad 1   | WASD · A = Shift · B = Strg             |
+| P2      | Schwarz | rechts | unten rechts | Pad 0   | Pfeiltasten · A = Enter · B = ⌫         |
+| P3      | Rot     | oben   | oben rechts  | Pad 2   | IJKL · A = U · B = O                    |
+| P4      | Blau    | links  | oben links   | Pad 3   | Ziffernblock 8456 · A = 0 · B = Enter   |
+
+Die Pad-Zuordnung entspricht dem Büro-Tisch (die ersten beiden Controller sind dort andersherum
+verkabelt), genau wie beim [Office Racer](https://github.com/knusperpixel/office-racer).
+
+- **Joystick:** Der Stick ist pro Platz gedreht: „vom Spieler weg“ läuft die Figur immer vom eigenen Bildschirmrand weg. Die Tastatur ist nicht gedreht. Mit `-- --desktop` gelten für alle die normalen Bildschirmrichtungen.
+- **B** = Gamepad-Knopf 1 (oder linke Schultertaste/Trigger): in der Lobby zurück, im Spiel Fernzünder.
+- **A** = jeder andere Knopf. Der Prototyp meldet seinen Knopf als Knopf 3. In der Lobby mitmachen, dann bereit; im Spiel Bombe legen.
+- **Esc** beendet in der Lobby das Programm und bricht im Spiel das Match ab. **F11** schaltet das Vollbild um.
+
+Jeder Gamepad-Knopf wird in der Konsole ausgegeben (`Gamepad 0: Knopf 3`) und unten rechts in der Lobby angezeigt.
 
 Sobald mindestens 2 Spieler beigetreten und alle bereit sind, startet das Match nach 3 Sekunden.
 Wer zuerst die eingestellte Zahl an Runden gewinnt (1–5), gewinnt das Match.
@@ -36,26 +47,14 @@ Wer zuerst die eingestellte Zahl an Runden gewinnt (1–5), gewinnt das Match.
 
 ## Steuerung anpassen
 
-Beim ersten Start legt das Spiel `controls.cfg` im Benutzerordner an:
+Beim ersten Start legt das Spiel `controls.cfg` im Benutzerordner an
+(`~/.local/share/godot/app_userdata/B-Man/controls.cfg`, auf dem Mac
+`~/Library/Application Support/Godot/app_userdata/B-Man/`). Dort lassen sich ändern:
 
-```
-~/.local/share/godot/app_userdata/B-Man/controls.cfg
-```
+- `[general]`: `deadzone`, `table_mode` (Stick pro Platz drehen), `buttons_b` (Knöpfe für B, alle anderen sind A)
+- `[player1]` … `[player4]`: `joypad_device`, `seat` (`unten`/`rechts`/`oben`/`links`) und die `key_*`-Tasten
 
-Pro Spieler (`[player1]` … `[player4]`) lässt sich dort einstellen:
-
-- `joypad_device`: Geräte-Index des Controllers (Standard: 0–3 in Anschlussreihenfolge)
-- `axis_x` / `axis_y`: Achsen des Joysticks (Standard 0/1). D-Pad- und Hat-Eingaben werden zusätzlich immer ausgewertet.
-- `button_a` / `button_b`: Button-Nummern (Standard 0/1)
-- `key_*`: Tastatur-Fallback (P1 WASD+Q/E, P2 Pfeile+Enter/Backspace, P3 IJKL+U/O, P4 Numpad 8456+7/9)
-
-`[general] deadzone` regelt, ab welchem Ausschlag der Joystick zählt.
-
-Die Lobby zeigt unten rechts an, wie viele Controller erkannt sind. Zum Testen der Belegung
-einfach in der Lobby A drücken: die passende Spielerfigur meldet sich an.
-
-> Falls die Arcade-Encoder sich als **Tastatur** statt als Controller melden (manche I-PAC-Boards tun das),
-> trägt man die gesendeten Tasten unter `key_*` ein.
+Die Pad-Zuordnung geht auch per Startoption: `-- --pads=1,0,2,3` (Reihenfolge P1–P4, Zahl = Gamepad-Nummer ab 0).
 
 ## Auf dem Raspberry Pi starten
 
