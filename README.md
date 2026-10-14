@@ -56,6 +56,23 @@ Beim ersten Start legt das Spiel `controls.cfg` im Benutzerordner an
 
 Die Pad-Zuordnung geht auch per Startoption: `-- --pads=1,0,2,3` (Reihenfolge P1–P4, Zahl = Gamepad-Nummer ab 0).
 
+## Builds (GitHub Actions)
+
+Bei jedem Push baut `.github/workflows/build.yml` das Spiel: Godot 4.7.2 laden, Unit-Tests,
+zwei Minuten Bot-Match als Smoke-Test, dann Export.
+
+- **Fertige Builds:** GitHub → *Actions* → neuester Lauf → *Artifacts* → `B-Man`
+  - `B-Man-raspberrypi-arm64.zip` – für den Pi
+  - `B-Man-macos.zip` – für den Mac (Apple Silicon und Intel, ad-hoc signiert: beim ersten Start `xattr -cr B-Man.app` oder *Systemeinstellungen → Datenschutz & Sicherheit → Dennoch öffnen*)
+- **Release:** Ein Tag `v*` (z. B. `git tag v0.2 && git push --tags`) legt die Builds zusätzlich als Release auf GitHub ab.
+
+Lokal dasselbe prüfen:
+
+```sh
+godot --headless --path . -s tests/unit_test.gd               # Unit-Tests (Knöpfe, Stick-Drehung, Startfelder)
+godot --headless --path . --fixed-fps 60 -- --autotest=120    # 2 Minuten Bot-Match
+```
+
 ## Auf dem Raspberry Pi starten
 
 Das Projekt nutzt den **Compatibility-Renderer** (OpenGL ES 3 / OpenGL 3.3) und rendert intern mit
@@ -69,7 +86,7 @@ Das Projekt nutzt den **Compatibility-Renderer** (OpenGL ES 3 / OpenGL 3.3) und 
 **Variante B: Export als eigenständige Datei**
 
 1. Am PC in Godot 4.7 die Export-Templates installieren (*Editor → Export-Templates verwalten*).
-2. *Projekt → Exportieren →* Preset **„Raspberry Pi (Linux arm64)“** → `build/b-man.arm64`
+2. *Projekt → Exportieren →* Preset **„Raspberry Pi (Linux arm64)“** → `build/linux-arm64/b-man.arm64`
 3. Datei auf den Pi kopieren, `chmod +x b-man.arm64`, starten.
 
 Das Spiel startet im Vollbild. Mit `-- --windowed` startet es im Fenster.

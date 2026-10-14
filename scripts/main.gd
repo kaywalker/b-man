@@ -12,6 +12,11 @@ func _ready() -> void:
 	if not OS.has_feature("editor") and not OS.get_cmdline_user_args().has("--windowed"):
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	_show_lobby()
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--autotest="):
+			var bot := preload("res://scripts/autotest.gd").new()
+			bot.duration = float(arg.trim_prefix("--autotest="))
+			add_child(bot)
 
 
 func _input(event: InputEvent) -> void:
@@ -30,6 +35,7 @@ func _switch_to(node: Node) -> void:
 		_current.queue_free()
 	_current = node
 	add_child(node)
+	move_child(node, 0)
 
 
 func _show_lobby() -> void:
