@@ -187,6 +187,32 @@ static func _pad_b(pad: int) -> bool:
 	return Input.get_joy_axis(pad, JOY_AXIS_TRIGGER_LEFT) > 0.4
 
 
+static func debug_text(player: int) -> String:
+	## Für die Lobby: welches Pad, verbunden?, welche Knöpfe/Richtung kommen gerade an.
+	_update()
+	var pad: int = pads[player]
+	var connected := pad in Input.get_connected_joypads()
+	var s := "Pad %d %s" % [pad, "ok" if connected else "fehlt"]
+	if connected:
+		var raw := []
+		for btn in JOY_BUTTON_MAX:
+			if Input.is_joy_button_pressed(pad, btn):
+				raw.append(str(btn))
+		if not raw.is_empty():
+			s += " K" + ",".join(raw)
+	var st: Dictionary = _now[player]
+	if st.a:
+		s += " A"
+	if st.b:
+		s += " B"
+	var arrows := {Vector2i.LEFT: "<", Vector2i.RIGHT: ">", Vector2i.UP: "^", Vector2i.DOWN: "v"}
+	if st.dir.x != 0:
+		s += " " + arrows[Vector2i(st.dir.x, 0)]
+	if st.dir.y != 0:
+		s += " " + arrows[Vector2i(0, st.dir.y)]
+	return s
+
+
 static func dir_pressed(player: int) -> Vector2i:
 	_update()
 	return _now[player].dir

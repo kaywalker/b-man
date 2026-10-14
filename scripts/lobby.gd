@@ -114,10 +114,13 @@ func _draw() -> void:
 	elif joined.count(true) == 1:
 		footer = "Mindestens 2 Spieler nötig"
 	Art.text(self, Vector2(240, 246), footer, 10, Color.WHITE)
-	var info := "Controller: %d" % Input.get_connected_joypads().size()
+	var names := []
+	for d in Input.get_connected_joypads():
+		names.append("%d=%s" % [d, Input.get_joy_name(d).left(14)])
+	var info := "Controller: %d %s" % [names.size(), " ".join(names)]
 	if Controls.last_raw != "":
 		info += "   ·   " + Controls.last_raw
-	Art.text(self, Vector2(464, 262), info, 8, Color("808090"), HORIZONTAL_ALIGNMENT_RIGHT, 300)
+	Art.text(self, Vector2(464, 262), info, 8, Color("808090"), HORIZONTAL_ALIGNMENT_RIGHT, 440)
 
 
 func _draw_slot(i: int, r: Rect2) -> void:
@@ -144,6 +147,9 @@ func _draw_slot(i: int, r: Rect2) -> void:
 		status = "A drücken"
 		col = Color("a0a0b0")
 	Art.text(self, r.position + Vector2(r.size.x / 2, r.size.y - 8), status, 10, col)
+	var dbg := Controls.debug_text(i)
+	Art.text(self, r.position + Vector2(r.size.x / 2, r.size.y + 9), dbg, 8,
+		Color("60f060") if dbg.contains(" ok") else Color("f06060"))
 
 
 static func _fmt_time(t: float) -> String:
