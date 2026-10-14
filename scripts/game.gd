@@ -335,10 +335,18 @@ func _update_player(p: BPlayer, delta: float) -> void:
 		var dist := p.speed() * delta
 		for dir in cands:
 			var np := _try_move(p, dir, dist)
+			var step := np - p.cell_pos
+			# Schräg gedrückt: Schritte gegen eine der gedrückten Richtungen nicht zulassen.
+			# Sonst schiebt der Ecken-Assistent die Figur zurück in die Spur, die andere Achse
+			# wieder hinaus, und sie zittert auf der Stelle.
+			if step.x * d.x < -0.0001 or step.y * d.y < -0.0001:
+				continue
 			if not np.is_equal_approx(p.cell_pos):
 				p.cell_pos = np
 				p.facing = dir
-				p.last_axis = 0 if dir.x != 0 else 1
+				# Nur echtes Laufen in Richtung dir zählt als Achsenwechsel, nicht das Ausrichten.
+				if absf(step.x if dir.x != 0 else step.y) > 0.0001:
+					p.last_axis = 0 if dir.x != 0 else 1
 				p.moving = true
 				break
 		if not p.moving:

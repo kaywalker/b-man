@@ -70,6 +70,7 @@ Lokal dasselbe prüfen:
 
 ```sh
 godot --headless --path . -s tests/unit_test.gd               # Unit-Tests (Knöpfe, Stick-Drehung, Startfelder)
+godot --headless --path . --fixed-fps 60 res://tests/movement_test.tscn  # Schräger Stick bleibt nie hängen
 godot --headless --path . --fixed-fps 60 -- --autotest=120    # 2 Minuten Bot-Match
 ```
 

@@ -39,6 +39,9 @@ jobs:
       - name: Unit tests
         run: ./godot --headless --path . -s tests/unit_test.gd
 
+      - name: Movement test (diagonal stick never stalls)
+        run: ./godot --headless --path . --fixed-fps 60 res://tests/movement_test.tscn
+
       - name: Two minute bot match (smoke test)
         run: ./godot --headless --path . --fixed-fps 60 -- --autotest=120 | tee match.log && grep -q "autotest after" match.log
 
